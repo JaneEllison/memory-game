@@ -31,7 +31,6 @@ const MemoryGame = ({
   const [flippedIndexes, setFlippedIndexes] = useState([]);
 
   useEffect(() => {
-    console.log(state)
     if(movesCount === 0) {
       const newGame = [];
       for (let i = 0; i < state.difficulty / 2; i++) {
@@ -115,7 +114,7 @@ const MemoryGame = ({
             className="cards"
           >
             {game.map((card, index) => (
-              <div className={`card ${field}`} key={index}>
+              <div className={`card ${state.fieldCssClass}`} key={index}>
                 <Card
                   id={index}
                   image={card.image}

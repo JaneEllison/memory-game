@@ -196,10 +196,7 @@ const Main = ({
                 setVolumeAudio={setVolumeAudio}
                 formatVolume={formatVolume}
               />
-              <DifficultSettings
-                field={field}
-                setField={setField}
-              />
+              <DifficultSettings />
             </div>
             <div className="second__block_settings">
               <ThemeSettings />

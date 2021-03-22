@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated as a } from "react-spring";
 import sounds from '../../../constants/sounds'
+import useStore from '../../../core/store/useStore';
 
 const rightSouns = sounds[1];
 const wrongSound = sounds[2];
@@ -19,6 +20,8 @@ const Card = ({
   setCurrentTrack,
   field,
 }) => {
+  const {dispatch, state} = useStore();
+
   const [flipped, setFlipped] = useState(game[id].flipped);
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
@@ -61,14 +64,14 @@ const Card = ({
   return (
     <div onClick={onCardClick}>
       <a.div
-        className={`c back ${field}`}
+        className={`c back ${state.fieldCssClass}`}
         style={{
           opacity: opacity.interpolate(o => 1 - o),
           transform,
         }}
       />
       <a.div
-        className={`c front ${field}`}
+        className={`c front ${state.fieldCssClass}`}
         style={{
           opacity,
           transform: transform.interpolate(t => `${t} rotateX(180deg)`),

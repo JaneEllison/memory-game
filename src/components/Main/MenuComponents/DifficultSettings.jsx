@@ -3,10 +3,7 @@ import useStore from '../../../core/store/useStore';
 
 import { DifficultButtons } from '../../../constants/buttons';
 
-const DifficultSettings = ({
-  setField,
-  field,
-}) => {
+const DifficultSettings = () => {
 
   const {dispatch, state} = useStore();
 
@@ -17,15 +14,22 @@ const DifficultSettings = ({
     });
   });
 
+  const changeFieldCssClass = useCallback((value) => {
+    dispatch({
+      type: 'CHANGE_FIELD_CSS_CLASS',
+      payload: {fieldCssClass: value},
+    });
+  });
+
   useEffect(() => {
-    if(state.difficult === 12) {
-      setField('field__easy');
+    if(state.difficulty === 12) {
+      changeFieldCssClass('field__easy');
     }
-    if(state.difficult === 18) {
-      setField('field__normal');
+    if(state.difficulty === 18) {
+      changeFieldCssClass('field__normal');
     }
-    if(state.difficult === 24){
-      setField('field__difficult');
+    if(state.difficulty === 24){
+      changeFieldCssClass('field__difficult');
     }
 
     // const savedDifficult = JSON.stringify(state.difficult);
@@ -33,7 +37,7 @@ const DifficultSettings = ({
 
     // const savedField = JSON.stringify(field);
     // localStorage.setItem('memoryfield', savedField);
-  }, [state.difficult]);
+  }, [state.difficulty]);
   
   return (
     <div className='difficulty__container'>

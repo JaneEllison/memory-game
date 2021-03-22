@@ -4,8 +4,8 @@ const initialState = {
   theme: 'dark',
   difficulty: '18',
   cardTheme: 'stars',
-
-
+  // currentImages: ['abstract_1', 'abstract_2'],
+  fieldCssClass: 'field__normal',
 };
 
 export const Context = React.createContext({});
@@ -35,6 +35,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         theme: payload.theme,
+      };
+    case 'CHANGE_FIELD_CSS_CLASS':
+      return {
+        ...state,
+        fieldCssClass: payload.fieldCssClass,
       };
 
 

@@ -79,7 +79,7 @@ const state = {
   // theme: 'light', // string one of ['light', 'dark']
   currentImages: ['abstract_1', 'abstract_2'],
   // cardTheme: 'abstract', // string one of ['abstract', 'animal'...]
-  fieldCssClass: 'field__normal', // string one of ['field__easy', 'field__normal', field__hard]
+  // fieldCssClass: 'field__normal', // string one of ['field__easy', 'field__normal', field__hard]
 
   // difficulty: '18', // number one of ['12', '18, '24']
   isGameStarted: false, //boolean
