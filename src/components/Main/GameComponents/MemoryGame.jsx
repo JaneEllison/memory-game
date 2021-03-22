@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import useStore from '../../../core/store/useStore';
 import Card from './Card';
+import images from '../../../constants/themes';
 import sounds from '../../../constants/sounds';
 
 const finishSound = [...sounds].pop();
 
 const MemoryGame = ({ 
-  options,
   highScore,
   setHighScore,
   setIsRunningStopwatch,
@@ -18,7 +19,10 @@ const MemoryGame = ({
   currentImages,
   setIsGameFinished,
   setField,
+  setCurrentImages,
 }) => {
+  const {dispatch, state} = useStore();
+
   const savedGame = JSON.parse(localStorage.getItem('memorygame'));
   const savedField = JSON.parse(localStorage.getItem('memoryfield'));
 
@@ -27,9 +31,10 @@ const MemoryGame = ({
   const [flippedIndexes, setFlippedIndexes] = useState([]);
 
   useEffect(() => {
+    console.log(state)
     if(movesCount === 0) {
       const newGame = [];
-      for (let i = 0; i < options.difficult / 2; i++) {
+      for (let i = 0; i < state.difficulty / 2; i++) {
         const firstOption = {
           id: 2 * i,
           imgId: i,
@@ -55,7 +60,9 @@ const MemoryGame = ({
       setIsRunningStopwatch(true);
       setField(savedField);
     }
-  }, [currentImages, options.difficult]);
+
+    setCurrentImages(images[state.cardTheme]);
+  }, [currentImages, state.difficult]);
 
   useEffect(() => {
     const finished = !game.some(card => !card.flipped);
