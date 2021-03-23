@@ -18,7 +18,6 @@ const Card = ({
   setMovesCount,
   playSound,
   setCurrentTrack,
-  field,
 }) => {
   const {dispatch, state} = useStore();
 

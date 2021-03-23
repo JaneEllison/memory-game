@@ -1,19 +1,3 @@
-// опции с которыми начинается игра: сложность и тема, они устаавлиаются в DifficultSettings(когда нажимаем
-// на ту или иную кнопку) и в ThemeSettings
-// const [options, setOptions] = useState({
-//   difficult: savedDifficult || null,
-//   theme: savedTheme || 'stars',
-// });
-// текущая тема (dark/light)
-// const [currentMode, setCurrentMode] = useState('dark');
-// включен ли переключатель тем(т.е. включена ли светла тема)
-const [isChecked, setIsChecked] = useState(false);
-
-// та опция => та кнопка, которая подсвечивается как выбраная
-// const [currentOptions, setCurrentOptions] = useState({
-//   currentDifficult: savedDifficult || null,
-//   currentTheme: savedTheme || null,
-// });
 // игра началась, или нет, от этого зависит будет отображаться меню и все его компоненты, 
 // либо будет отображаться поле для игры
 const [isGameStarted, setIsGameStarted] = useState(savedStartGame || false);
@@ -29,10 +13,6 @@ const [movesCount, setMovesCount] = useState(savedMoves || 0);
 
 // наилучший результат по ходам
 const [highScore, setHighScore] = useState(0);
-
-// размер поля, потом додбавляет нужный мне класс полю, чтобы карточки на разных сложностях
-// были разного размера и влазили красиво в контейнер
-const [field, setField] = useState('');
 
 // массив с нужными путями картинок, которые мы используем, выбрав ту, или иную тему
 const [currentImages, setCurrentImages] = useState(null);
@@ -77,7 +57,7 @@ const state = {
   // selectedCards: ['abstract_1', 'abstract_2'], // Array<string>
 
   // theme: 'light', // string one of ['light', 'dark']
-  currentImages: ['abstract_1', 'abstract_2'],
+  // currentImages: ['abstract_1', 'abstract_2'],
   // cardTheme: 'abstract', // string one of ['abstract', 'animal'...]
   // fieldCssClass: 'field__normal', // string one of ['field__easy', 'field__normal', field__hard]
 

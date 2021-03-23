@@ -4,7 +4,7 @@ const initialState = {
   theme: 'dark',
   difficulty: '18',
   cardTheme: 'stars',
-  // currentImages: ['abstract_1', 'abstract_2'],
+  currentImages: ['abstract_1', 'abstract_2'],
   fieldCssClass: 'field__normal',
 };
 
@@ -34,7 +34,7 @@ const reducer = (state = initialState, action) => {
     case 'CHANGE_CURRENT_IMAGES':
       return {
         ...state,
-        theme: payload.theme,
+        currentImages: payload.currentImages,
       };
     case 'CHANGE_FIELD_CSS_CLASS':
       return {

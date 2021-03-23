@@ -15,11 +15,7 @@ const MemoryGame = ({
   setIsGameStarted,
   playSound,
   setCurrentTrack,
-  field,
-  currentImages,
   setIsGameFinished,
-  setField,
-  setCurrentImages,
 }) => {
   const {dispatch, state} = useStore();
 
@@ -30,20 +26,31 @@ const MemoryGame = ({
   const [flippedCount, setFlippedCount] = useState(0);
   const [flippedIndexes, setFlippedIndexes] = useState([]);
 
+
+  const changeCurrentImages = useCallback((value) => {
+
+    dispatch({
+      type: 'CHANGE_CURRENT_IMAGES',
+      payload: { currentImages: images[value] },
+    });
+  });
+
   useEffect(() => {
     if(movesCount === 0) {
+      changeCurrentImages(state.cardTheme);
+
       const newGame = [];
       for (let i = 0; i < state.difficulty / 2; i++) {
         const firstOption = {
           id: 2 * i,
           imgId: i,
-          image: currentImages?.[i],
+          image: state.currentImages[i],
           flipped: false,
         };
         const secondOption = {
           id: 2 * i + 1,
           imgId: i,
-          image: currentImages?.[i],
+          image: state.currentImages[i],
           flipped: false,
         };
   
@@ -57,11 +64,10 @@ const MemoryGame = ({
     } else {
       setGame(savedGame);
       setIsRunningStopwatch(true);
-      setField(savedField);
+      // setField(savedField);
     }
 
-    setCurrentImages(images[state.cardTheme]);
-  }, [currentImages, state.difficult]);
+  }, [state.currentImages]);
 
   useEffect(() => {
     const finished = !game.some(card => !card.flipped);
@@ -127,7 +133,6 @@ const MemoryGame = ({
                   setMovesCount={setMovesCount}
                   playSound={playSound}
                   setCurrentTrack={setCurrentTrack}
-                  field={field}
                 />
               </div>
             ))}

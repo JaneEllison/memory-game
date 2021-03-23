@@ -13,8 +13,8 @@ const ThemeSettings = () => {
       type: 'CHANGE_CARD_THEME',
       payload: {cardTheme: cardThemeName},
     });
-
   });
+
 
   // const themeGame = localStorage.getItem('memorygametheme');
   // const savedTheme = JSON.parse(themeGame);
