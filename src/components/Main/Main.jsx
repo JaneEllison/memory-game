@@ -11,6 +11,7 @@ import EndGamePopup from './GameComponents/EndGamePopup';
 import useStore from '../../core/store/useStore';
 import {
   toggleGameStarted,
+  toggleGameFinished,
   changeMovesCount,
   changeElapsedTime,
 } from '../../core/store/actions/gameLoop/actionCreators';
@@ -25,7 +26,6 @@ const Main = ({
   const {dispatch, state} = useStore();
   const {gameLoop} = state;
 
-
   const changeElapsedTimeSettings = useCallback((seconds) => {
     dispatch(changeElapsedTime(seconds));
   });
@@ -35,8 +35,6 @@ const Main = ({
 
   const savedIsMusicOn = JSON.parse(localStorage.getItem('memorygameismusicon'));
   const savedMusicVolume = JSON.parse(localStorage.getItem('memorygamemusicvolume'));
-
-  const [isGameFinished, setIsGameFinished] = useState(false);
 
   const [isSoundOn, setIsSoundOn] = useState(savedIsSoundOn);
   const [soundValue, setSoundValue] = useState(savedSoundVolume || 0.5);
@@ -148,10 +146,11 @@ const Main = ({
   };
 
   const startNewGame = () => {
-    dispatch(toggleGameStarted(false));
     changeElapsedTimeSettings(0);
     changeMovesCountValue(0);
-    setIsGameFinished(false);
+    dispatch(toggleGameStarted(false));
+    dispatch(toggleGameFinished(false));
+
     setTimeout(() => {
       dispatch(toggleGameStarted(true));
     }, 0);
@@ -165,7 +164,7 @@ const Main = ({
   const backToMenu = () => {
     changeMovesCountValue(0);
     changeElapsedTimeSettings(0);
-    setIsGameFinished(false);
+    dispatch(toggleGameFinished(false));
     dispatch(toggleGameStarted(false));
   }
 
@@ -181,7 +180,6 @@ const Main = ({
         id='sound'
       />
       <EndGamePopup
-        isGameFinished={isGameFinished}
         startNewGame={startNewGame}
         backToMenu={backToMenu}
       />
@@ -225,7 +223,6 @@ const Main = ({
               setIsRunningStopwatch={setIsRunningStopwatch}
               playSound={playSound}
               setCurrentTrack={setCurrentTrack}
-              setIsGameFinished={setIsGameFinished}
             />
           </>
         )

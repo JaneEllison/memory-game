@@ -5,7 +5,6 @@ import useStore from '../../../core/store/useStore';
 const EndGamePopup = ({
   startNewGame,
   backToMenu,
-  isGameFinished,
 }) => {
   const {state} = useStore();
   const {gameLoop} = state;
@@ -16,7 +15,7 @@ const EndGamePopup = ({
 
   return (
     <div className={
-      isGameFinished
+      gameLoop.isGameFinished
       ? "end_game__popup"
       : "end_game__popup hidden"
     }

@@ -1,7 +1,6 @@
 import useStore from '../../../core/store/useStore';
 import {toggleGameStarted} from '../../../core/store/actions/gameLoop/actionCreators';
 
-
 const GameButtons = ({
   setIsRunningStopwatch,
   startNewGame

@@ -17,6 +17,13 @@ export const toggleGameStarted = (isGameStarted) => {
   };
 };
 
+export const toggleGameFinished= (isGameFinished) => {
+  return {
+    payload: {isGameFinished},
+    type: ACTION_TOGGLE_GAME_FINISHED,
+  };
+};
+
 export const changeElapsedTime = (elapsedTime) => {
   return {
     payload: {elapsedTime},

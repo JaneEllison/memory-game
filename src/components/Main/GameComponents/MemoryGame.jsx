@@ -5,7 +5,7 @@ import images from '../../../constants/themes';
 import sounds from '../../../constants/sounds';
 
 import {changeCurrentImages} from '../../../core/store/actions/gameSettings/actionCreators';
-import {toggleGameStarted} from '../../../core/store/actions/gameLoop/actionCreators';
+import {toggleGameStarted, toggleGameFinished} from '../../../core/store/actions/gameLoop/actionCreators';
 
 const finishSound = [...sounds].pop();
 
@@ -15,7 +15,6 @@ const MemoryGame = ({
   setIsRunningStopwatch,
   playSound,
   setCurrentTrack,
-  setIsGameFinished,
 }) => {
   const {dispatch, state} = useStore();
   const {gameSettings, gameLoop} = state;
@@ -75,7 +74,7 @@ const MemoryGame = ({
         setCurrentTrack(finishSound);
         playSound();
       }, 1000)
-      setIsGameFinished(true);
+      dispatch(toggleGameFinished(true));
       dispatch(toggleGameStarted(false));
       setIsRunningStopwatch(false);
     }

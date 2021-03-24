@@ -85,6 +85,15 @@ const rootReducer = (state = initialState, action) => {
         },
       };
 
+    case ACTION_TOGGLE_GAME_FINISHED:
+      return {
+        ...state,
+        gameLoop: {
+          ...state.gameLoop,
+          isGameFinished: payload.isGameFinished,
+        },
+      };
+
     case ACTION_CHANGE_ELAPSED_TIME:
       return {
         ...state,

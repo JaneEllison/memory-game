@@ -14,11 +14,11 @@ const gameSettings = {
 };
 
 const gameLoop = {
-  isGameStarted: false, //boolean
-  isGameFinished: false, //boolean
+  isGameStarted: false,
+  isGameFinished: false,
   isStopwatchRunning: false, //boolean
   elapsedTime: 0,
-  movesCount: 0, 
+  movesCount: 0,
   highScore: 0, // number TODO: refactor to Array<{score: number, name: string, moves: number, difficulty: string}>
   gameCardsSet: [], // array<{id: number, imgId: number, isFlipped: boolean, image: string}>
   flipsCount: 0, // number
