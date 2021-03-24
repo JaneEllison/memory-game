@@ -2,17 +2,17 @@ import React, { useEffect, useCallback } from "react";
 import useStore from '../../../core/store/useStore';
 import { ThemeButtons } from '../../../constants/buttons';
 
+import {changeCardTheme} from '../../../core/store/actions/gameSettings/actionCreators'
+
 const ThemeSettings = () => {
 
   const {dispatch, state} = useStore();
+  const {gameSettings} = state;
 
-  const changeCardTheme = useCallback((value) => {
+  const changeCardThemeSettings = useCallback((value) => {
     let cardThemeName = value.toLowerCase();
 
-    dispatch({
-      type: 'CHANGE_CARD_THEME',
-      payload: {cardTheme: cardThemeName},
-    });
+    dispatch(changeCardTheme(cardThemeName));
   });
 
 
@@ -20,14 +20,14 @@ const ThemeSettings = () => {
   // const savedTheme = JSON.parse(themeGame);
 
   // useEffect(() => {
-  //   let themeName = state.theme.toLowerCase();    
+  //   let themeName = gameSettings.theme.toLowerCase();    
   //   const theme = JSON.stringify(themeName);
   //   localStorage.setItem('memorygametheme', theme);
 
   //   if(themeGame) {
   //     setCurrentImages(images[theme]);
   //   }
-  // }, [state.theme]);
+  // }, [gameSettings.theme]);
 
   return (
     <div>
@@ -37,11 +37,11 @@ const ThemeSettings = () => {
           <div className="block__settings" key={button.id}>
             <button
               className={
-                (state.cardTheme === button.text.toLocaleLowerCase())
+                (gameSettings.cardTheme === button.text.toLocaleLowerCase())
                 ? "card__bg active"
                 : "card__bg"
               }
-              onClick={() => changeCardTheme(button.text)}
+              onClick={() => changeCardThemeSettings(button.text)}
             >
               {button.text}
             </button>

@@ -2,32 +2,24 @@ import React, { useEffect, useCallback } from "react";
 import useStore from '../../../core/store/useStore';
 import { DifficultButtons } from '../../../constants/buttons';
 
+import {
+  changeDifficulty,
+  changeFieldCssClass,
+} from '../../../core/store/actions/gameSettings/actionCreators';
+
 const DifficultSettings = () => {
   const { dispatch, state } = useStore();
-
-  const changeDifficulty = useCallback((value) => {
-    dispatch({
-      type: 'CHANGE_DIFFICULTY',
-      payload: { difficulty: value },
-    });
-  });
-
-  const changeFieldCssClass = useCallback((value) => {
-    dispatch({
-      type: 'CHANGE_FIELD_CSS_CLASS',
-      payload: { fieldCssClass: value },
-    });
-  });
+  const { gameSettings } = state;
 
   useEffect(() => {
-    if (state.difficulty === 12) {
-      changeFieldCssClass('field__easy');
+    if (gameSettings.difficulty === 12) {
+      dispatch(changeFieldCssClass('field__easy'));
     }
-    if (state.difficulty === 18) {
-      changeFieldCssClass('field__normal');
+    if (gameSettings.difficulty === 18) {
+      dispatch(changeFieldCssClass('field__normal'));
     }
-    if (state.difficulty === 24) {
-      changeFieldCssClass('field__difficult');
+    if (gameSettings.difficulty === 24) {
+      dispatch(changeFieldCssClass('field__difficult'));
     }
 
     // const savedDifficult = JSON.stringify(state.difficult);
@@ -35,7 +27,7 @@ const DifficultSettings = () => {
 
     // const savedField = JSON.stringify(field);
     // localStorage.setItem('memoryfield', savedField);
-  }, [state.difficulty]);
+  }, [gameSettings.difficulty]);
 
   return (
     <div className='difficulty__container'>
@@ -46,11 +38,11 @@ const DifficultSettings = () => {
             <button
               key={button.id}
               className={
-                state.difficulty === button.value
+                gameSettings.difficulty === button.value
                   ? "difficult__button active"
                   : "difficult__button"
               }
-              onClick={() => changeDifficulty(button.value)}
+              onClick={() => dispatch(changeDifficulty(button.value))}
             >
               {button.text}
             </button>

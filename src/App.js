@@ -26,13 +26,13 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    const theme = state.theme === 'light' ? lightTheme : darkTheme;
+    const theme = state.appSettings.theme === 'light' ? lightTheme : darkTheme;
 
     Object.keys(theme).forEach(key => {
       const value = theme[key];
       document.documentElement.style.setProperty(key, value);
     });
-  }, [state.theme]);
+  }, [state.appSettings.theme]);
 
   const [isGameStarted, setIsGameStarted] = useState(savedStartGame || false);
   const [isRunningStopwatch, setIsRunningStopwatch] = useState(false);

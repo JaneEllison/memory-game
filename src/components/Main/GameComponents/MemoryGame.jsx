@@ -4,6 +4,8 @@ import Card from './Card';
 import images from '../../../constants/themes';
 import sounds from '../../../constants/sounds';
 
+import {changeCurrentImages} from '../../../core/store/actions/gameSettings/actionCreators'
+
 const finishSound = [...sounds].pop();
 
 const MemoryGame = ({ 
@@ -18,6 +20,7 @@ const MemoryGame = ({
   setIsGameFinished,
 }) => {
   const {dispatch, state} = useStore();
+  const {gameSettings} = state;
 
   const savedGame = JSON.parse(localStorage.getItem('memorygame'));
   const savedField = JSON.parse(localStorage.getItem('memoryfield'));
@@ -26,31 +29,22 @@ const MemoryGame = ({
   const [flippedCount, setFlippedCount] = useState(0);
   const [flippedIndexes, setFlippedIndexes] = useState([]);
 
-
-  const changeCurrentImages = useCallback((value) => {
-
-    dispatch({
-      type: 'CHANGE_CURRENT_IMAGES',
-      payload: { currentImages: images[value] },
-    });
-  });
-
   useEffect(() => {
     if(movesCount === 0) {
-      changeCurrentImages(state.cardTheme);
+      dispatch(changeCurrentImages(images[gameSettings.cardTheme]));
 
       const newGame = [];
-      for (let i = 0; i < state.difficulty / 2; i++) {
+      for (let i = 0; i < gameSettings.difficulty / 2; i++) {
         const firstOption = {
           id: 2 * i,
           imgId: i,
-          image: state.currentImages[i],
+          image: gameSettings.currentImages[i],
           flipped: false,
         };
         const secondOption = {
           id: 2 * i + 1,
           imgId: i,
-          image: state.currentImages[i],
+          image: gameSettings.currentImages[i],
           flipped: false,
         };
   
@@ -67,7 +61,7 @@ const MemoryGame = ({
       // setField(savedField);
     }
 
-  }, [state.currentImages]);
+  }, [gameSettings.currentImages]);
 
   useEffect(() => {
     const finished = !game.some(card => !card.flipped);
@@ -120,7 +114,7 @@ const MemoryGame = ({
             className="cards"
           >
             {game.map((card, index) => (
-              <div className={`card ${state.fieldCssClass}`} key={index}>
+              <div className={`card ${gameSettings.fieldCssClass}`} key={index}>
                 <Card
                   id={index}
                   image={card.image}

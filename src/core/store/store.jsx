@@ -1,55 +1,12 @@
 import React, { useReducer } from 'react';
 
-const initialState = {
-  theme: 'dark',
-  difficulty: '18',
-  cardTheme: 'stars',
-  currentImages: ['abstract_1', 'abstract_2'],
-  fieldCssClass: 'field__normal',
-};
+import rootReducer from './reducers/rootReducer';
+import {initialState} from './initialState';
 
 export const Context = React.createContext({});
 
-const reducer = (state = initialState, action) => {
-  const { payload, type } = action;
-
-  console.log('reducer', type, payload);
-
-  switch (type) {
-    case 'CHANGE_THEME':
-      return {
-        ...state,
-        theme: payload.theme,
-      };
-    case 'CHANGE_DIFFICULTY':
-      return {
-        ...state,
-        difficulty: payload.difficulty,
-      };
-    case 'CHANGE_CARD_THEME':
-      return {
-        ...state,
-        cardTheme: payload.cardTheme,
-      };
-    case 'CHANGE_CURRENT_IMAGES':
-      return {
-        ...state,
-        currentImages: payload.currentImages,
-      };
-    case 'CHANGE_FIELD_CSS_CLASS':
-      return {
-        ...state,
-        fieldCssClass: payload.fieldCssClass,
-      };
-
-
-    default:
-      return state;
-  }
-};
-
 const Store = (props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(rootReducer, initialState);
 
   return (
     <Context.Provider value={{ dispatch, state }}>

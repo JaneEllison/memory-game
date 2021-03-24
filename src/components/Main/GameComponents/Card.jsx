@@ -20,6 +20,7 @@ const Card = ({
   setCurrentTrack,
 }) => {
   const {dispatch, state} = useStore();
+  const {gameSettings} = state;
 
   const [flipped, setFlipped] = useState(game[id].flipped);
   const { transform, opacity } = useSpring({
@@ -63,14 +64,14 @@ const Card = ({
   return (
     <div onClick={onCardClick}>
       <a.div
-        className={`c back ${state.fieldCssClass}`}
+        className={`c back ${gameSettings.fieldCssClass}`}
         style={{
           opacity: opacity.interpolate(o => 1 - o),
           transform,
         }}
       />
       <a.div
-        className={`c front ${state.fieldCssClass}`}
+        className={`c front ${gameSettings.fieldCssClass}`}
         style={{
           opacity,
           transform: transform.interpolate(t => `${t} rotateX(180deg)`),

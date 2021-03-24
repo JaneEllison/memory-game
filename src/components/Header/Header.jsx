@@ -3,6 +3,8 @@ import {useCallback} from 'react';
 import Counter from '../Header/Counter';
 import useStore from '../../core/store/useStore';
 
+import {changeTheme} from '../../core/store/actions/appSettings/actionCreators'
+
 const Header = ({
   highScore,
   isRunningStopwatch,
@@ -11,16 +13,13 @@ const Header = ({
   movesCount,
 }) => {
   const {dispatch, state} = useStore();
-  const isChecked = state.theme === 'light';
+  const isChecked = state.appSettings.theme === 'light';
 
   const toggleTheme = useCallback((event) => {
     const {checked} = event.target;
     const newMode = checked? 'light' : 'dark';
 
-    dispatch({
-      type: 'CHANGE_THEME',
-      payload: {theme: newMode}
-    });
+    dispatch(changeTheme(newMode));
 
     localStorage.setItem('mode', newMode);
   });
