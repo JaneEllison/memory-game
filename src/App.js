@@ -37,7 +37,6 @@ function App() {
   const [isGameStarted, setIsGameStarted] = useState(savedStartGame || false);
   const [isRunningStopwatch, setIsRunningStopwatch] = useState(false);
   const [stopwatchSeconds, setStopwatchSeconds] = useState(savedSeconds || 0);
-  const [movesCount, setMovesCount] = useState(savedMoves || 0);
   const [highScore, setHighScore] = useState(0);
 
   useEffect(() => {
@@ -53,19 +52,16 @@ function App() {
       <div className="App">
         <Header
           isRunningStopwatch={isRunningStopwatch}
-          movesCount={movesCount}
           highScore={highScore}
         />
         <Main
           isGameStarted={isGameStarted}
           setStopwatchSeconds={setStopwatchSeconds}
-          setMovesCount={setMovesCount}
           setIsGameStarted={setIsGameStarted}
           setIsRunningStopwatch={setIsRunningStopwatch}
           highScore={highScore}
           setHighScore={setHighScore}
           stopwatchSeconds={stopwatchSeconds}
-          movesCount={movesCount}
         />
         <Footer />
       </div>

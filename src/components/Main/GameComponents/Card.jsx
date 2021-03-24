@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSpring, animated as a } from "react-spring";
 import sounds from '../../../constants/sounds'
 import useStore from '../../../core/store/useStore';
+import {changeMovesCount} from '../../../core/store/actions/gameLoop/actionCreators'
 
 const rightSouns = sounds[1];
 const wrongSound = sounds[2];
@@ -14,13 +15,17 @@ const Card = ({
   setFlippedCount,
   flippedIndexes,
   setFlippedIndexes,
-  movesCount,
-  setMovesCount,
   playSound,
   setCurrentTrack,
 }) => {
   const {dispatch, state} = useStore();
-  const {gameSettings} = state;
+  const {gameSettings, gameLoop} = state;
+
+
+  const changeMovesCountValue = useCallback(() => {
+    const movesCounter = gameLoop.movesCount + 1;
+    dispatch(changeMovesCount(movesCounter));
+  });
 
   const [flipped, setFlipped] = useState(game[id].flipped);
   const { transform, opacity } = useSpring({
@@ -57,7 +62,7 @@ const Card = ({
       const newIndexes = [...flippedIndexes];
       newIndexes.push(id);
       setFlippedIndexes(newIndexes);
-      setMovesCount(movesCount + 1);
+      changeMovesCountValue();
     };
   };
 

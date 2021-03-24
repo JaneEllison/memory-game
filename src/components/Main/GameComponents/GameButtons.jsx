@@ -1,16 +1,20 @@
+import {changeMovesCount} from '../../../core/store/actions/gameLoop/actionCreators'
+import useStore from '../../../core/store/useStore';
+
 const GameButtons = ({
   setIsGameStarted,
   setIsRunningStopwatch,
   setStopwatchSeconds,
-  setMovesCount,
 }) => {
+  const {dispatch} = useStore();
+
   return (
     <div>
       <button
         className="restart__button"
         onClick={() => {
           setStopwatchSeconds(0);
-          setMovesCount(0);
+          dispatch(changeMovesCount(0));
           setIsGameStarted(false);
           setTimeout(() => {
             setIsGameStarted(true);

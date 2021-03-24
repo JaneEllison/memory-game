@@ -17,8 +17,8 @@ const gameLoop = {
   isGameStarted: false, //boolean
   isGameFinished: false, //boolean
   isStopwatchRunning: false, //boolean
-  elapsedTime: 0, //number in ms
-  movesCoun: 0, //number int
+  elapsedTime: 0,
+  movesCount: 0, //number int
   highScore: 0, // number TODO: refactor to Array<{score: number, name: string, moves: number, difficulty: string}>
   gameCardsSet: [], // array<{id: number, imgId: number, isFlipped: boolean, image: string}>
   flipsCount: 0, // number

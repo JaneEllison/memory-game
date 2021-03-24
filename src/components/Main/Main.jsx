@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useCallback } from "react";
 import SoundSettings from './MenuComponents/SoundsSettings';
 import DifficultSettings from './MenuComponents/DifficultSettings';
 import ThemeSettings from './MenuComponents/ThemeSettings';
 import NavButtons from './MenuComponents/NavButtons';
 import GameButtons from './GameComponents/GameButtons';
-import sounds from '../../constants/sounds'
-import MemoryGame from './GameComponents/MemoryGame'
-import EndGamePopup from './GameComponents/EndGamePopup'
+import sounds from '../../constants/sounds';
+import MemoryGame from './GameComponents/MemoryGame';
+import EndGamePopup from './GameComponents/EndGamePopup';
 
-import useStore from '../../core/store/useStore'
+import useStore from '../../core/store/useStore';
+import {changeMovesCount} from '../../core/store/actions/gameLoop/actionCreators'
 
 const [themeMusic] = sounds;
 
@@ -16,13 +17,14 @@ const Main = ({
   isGameStarted,
   setIsGameStarted,
   setStopwatchSeconds,
-  setMovesCount,
   setIsRunningStopwatch,
   highScore,
   setHighScore,
-  movesCount,
   stopwatchSeconds,
 }) => {
+  const {dispatch, state} = useStore();
+  const {gameLoop} = state;
+
   const savedIsSoundOn = JSON.parse(localStorage.getItem('memorygameissoundon'));
   const savedSoundVolume = JSON.parse(localStorage.getItem('memorygamesoundvolume'));
 
@@ -38,6 +40,10 @@ const Main = ({
 
   const [isMusicOn, setIsMusicOn] = useState(savedIsMusicOn);
   const [musicValue, setMusicValue] = useState(savedMusicVolume || 0.5);
+
+  const changeMovesCountValue = useCallback((movesCount) => {
+    dispatch(changeMovesCount(movesCount));
+  });
 
   let audioPlayer;
   let soundPlayer;
@@ -139,7 +145,7 @@ const Main = ({
   const startNewGame = () => {
     setIsGameStarted(false);
     setStopwatchSeconds(0);
-    setMovesCount(0);
+    changeMovesCountValue(0);
     setIsGameFinished(false);
     setTimeout(() => {
       setIsGameStarted(true);
@@ -152,7 +158,7 @@ const Main = ({
   }
 
   const backToMenu = () => {
-    setMovesCount(0);
+    changeMovesCountValue(0);
     setStopwatchSeconds(0);
     setIsGameFinished(false);
     setIsGameStarted(false);
@@ -172,7 +178,6 @@ const Main = ({
       <EndGamePopup
         isGameFinished={isGameFinished}
         stopwatchSeconds={stopwatchSeconds}
-        movesCount={movesCount}
         startNewGame={startNewGame}
         backToMenu={backToMenu}
       />
@@ -210,19 +215,15 @@ const Main = ({
               setIsRunningStopwatch={setIsRunningStopwatch}
               setIsGameStarted={setIsGameStarted}
               setStopwatchSeconds={setStopwatchSeconds}
-              setMovesCount={setMovesCount}
             />
             <MemoryGame
               highScore={highScore}
               setHighScore={setHighScore}
               setIsRunningStopwatch={setIsRunningStopwatch}
-              movesCount={movesCount}
-              setMovesCount={setMovesCount}
               setIsGameStarted={setIsGameStarted}
               playSound={playSound}
               setCurrentTrack={setCurrentTrack}
               setIsGameFinished={setIsGameFinished}
-              movesCount={movesCount}
             />
           </>
         )

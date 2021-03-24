@@ -12,15 +12,13 @@ const MemoryGame = ({
   highScore,
   setHighScore,
   setIsRunningStopwatch,
-  movesCount,
-  setMovesCount,
   setIsGameStarted,
   playSound,
   setCurrentTrack,
   setIsGameFinished,
 }) => {
   const {dispatch, state} = useStore();
-  const {gameSettings} = state;
+  const {gameSettings, gameLoop} = state;
 
   const savedGame = JSON.parse(localStorage.getItem('memorygame'));
   const savedField = JSON.parse(localStorage.getItem('memoryfield'));
@@ -30,7 +28,7 @@ const MemoryGame = ({
   const [flippedIndexes, setFlippedIndexes] = useState([]);
 
   useEffect(() => {
-    if(movesCount === 0) {
+    if(gameLoop.movesCount === 0) {
       dispatch(changeCurrentImages(images[gameSettings.cardTheme]));
 
       const newGame = [];
@@ -68,7 +66,7 @@ const MemoryGame = ({
 
     if (finished && game.length > 0) {
       setTimeout(() => {
-        let score = movesCount;
+        let score = gameLoop.movesCount;
         if (score > highScore) {
           setHighScore(score);
           const savedHighScore = JSON.stringify(highScore);
@@ -123,8 +121,6 @@ const MemoryGame = ({
                   setFlippedCount={setFlippedCount}
                   flippedIndexes={flippedIndexes}
                   setFlippedIndexes={setFlippedIndexes}
-                  movesCount={movesCount}
-                  setMovesCount={setMovesCount}
                   playSound={playSound}
                   setCurrentTrack={setCurrentTrack}
                 />

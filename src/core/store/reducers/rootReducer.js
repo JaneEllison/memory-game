@@ -16,7 +16,7 @@ import {
   ACTION_TOGGLE_GAME_FINISHED,
   ACTION_TOGGLE_STOPWATCH_RUNNING,
   ACTION_CHANGE_ELAPSED_TIME,
-  ACTION_TOGGLE_MOVES_COUNT,
+  ACTION_CHANGE_MOVES_COUNT,
   ACTION_CHANGE_HIGHT_SCORE,
   ACTION_TOGGLE_GAME_CARDS_SET,
   ACTION_CHANGE_FLIPS_COUNT,
@@ -81,7 +81,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         gameLoop: {
           ...state.gameLoop,
-          elapsedTime: state.elapsedTime,
+          elapsedTime: payload.elapsedTime,
+        }
+      };
+
+    case ACTION_CHANGE_MOVES_COUNT:
+      return {
+        ...state,
+        gameLoop: {
+          ...state.gameLoop,
+          movesCount: payload.movesCount,
         }
       };
 

@@ -10,7 +10,6 @@ const Header = ({
   isRunningStopwatch,
   stopwatchSeconds,
   setStopwatchSeconds,
-  movesCount,
 }) => {
   const {dispatch, state} = useStore();
   const isChecked = state.appSettings.theme === 'light';
@@ -46,7 +45,6 @@ const Header = ({
         isRunningStopwatch={isRunningStopwatch}
         stopwatchSeconds={stopwatchSeconds}
         setStopwatchSeconds={setStopwatchSeconds}
-        movesCount={movesCount}
       />
     </header>
   )

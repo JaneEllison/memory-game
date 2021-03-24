@@ -19,7 +19,7 @@ const state = {
   currentSound: 'assets/sounds/right_sound.mp3', //string file to source
   isMusicOn: true, //boolean
   musicValue: 0.5, //number from 0 to 1
-  movesCoun: 0, //number int
+  movesCount: 0, //number int
   highScore: 0, // number TODO: refactor to Array<{score: number, name: string, moves: number, difficulty: string}>
   gameCardsSet: [], // array<{id: number, imgId: number, isFlipped: boolean, image: string}>
   flipsCount: 0, // number

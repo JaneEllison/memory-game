@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import useStore from '../../core/store/useStore';
 import {changeElapsedTime} from '../../core/store/actions/gameLoop/actionCreators'
 
-const Counter = ({ isRunningStopwatch, movesCount }) => {
+const Counter = ({ isRunningStopwatch }) => {
   const {dispatch, state} = useStore();
   const {gameLoop} = state;
 
@@ -42,7 +42,7 @@ const Counter = ({ isRunningStopwatch, movesCount }) => {
         Time: {`${formatTime(minutes)}:${formatTime(seconds)}`}
       </div>
       <div>
-        Moves: {`${movesCount}`}
+        Moves: {`${gameLoop.movesCount}`}
       </div>
     </div>
   )
