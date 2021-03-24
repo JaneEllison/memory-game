@@ -9,7 +9,7 @@ import MemoryGame from './GameComponents/MemoryGame';
 import EndGamePopup from './GameComponents/EndGamePopup';
 
 import useStore from '../../core/store/useStore';
-import {changeMovesCount} from '../../core/store/actions/gameLoop/actionCreators'
+import {changeMovesCount, changeElapsedTime} from '../../core/store/actions/gameLoop/actionCreators';
 
 const [themeMusic] = sounds;
 
@@ -20,10 +20,14 @@ const Main = ({
   setIsRunningStopwatch,
   highScore,
   setHighScore,
-  stopwatchSeconds,
 }) => {
   const {dispatch, state} = useStore();
   const {gameLoop} = state;
+
+
+  const changeElapsedTimeSettings = useCallback((seconds) => {
+    dispatch(changeElapsedTime(seconds));
+  });
 
   const savedIsSoundOn = JSON.parse(localStorage.getItem('memorygameissoundon'));
   const savedSoundVolume = JSON.parse(localStorage.getItem('memorygamesoundvolume'));
@@ -80,7 +84,7 @@ const Main = ({
 
   const initPlayer = () => {
     audioPlayer = document.getElementById('music');
-    soundPlayer = document.getElementById('sound')
+    soundPlayer = document.getElementById('sound');
   };
 
   useLayoutEffect(() => {
@@ -144,7 +148,7 @@ const Main = ({
 
   const startNewGame = () => {
     setIsGameStarted(false);
-    setStopwatchSeconds(0);
+    changeElapsedTimeSettings(0);
     changeMovesCountValue(0);
     setIsGameFinished(false);
     setTimeout(() => {
@@ -159,7 +163,7 @@ const Main = ({
 
   const backToMenu = () => {
     changeMovesCountValue(0);
-    setStopwatchSeconds(0);
+    changeElapsedTimeSettings(0);
     setIsGameFinished(false);
     setIsGameStarted(false);
   }
@@ -177,7 +181,6 @@ const Main = ({
       />
       <EndGamePopup
         isGameFinished={isGameFinished}
-        stopwatchSeconds={stopwatchSeconds}
         startNewGame={startNewGame}
         backToMenu={backToMenu}
       />
@@ -214,7 +217,7 @@ const Main = ({
             <GameButtons
               setIsRunningStopwatch={setIsRunningStopwatch}
               setIsGameStarted={setIsGameStarted}
-              setStopwatchSeconds={setStopwatchSeconds}
+              startNewGame={startNewGame}
             />
             <MemoryGame
               highScore={highScore}

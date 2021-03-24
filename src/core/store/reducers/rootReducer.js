@@ -28,7 +28,7 @@ import {
 const rootReducer = (state = initialState, action) => {
   const { payload, type } = action;
 
-  console.log('reducer', type, payload);
+  console.log('reducer', type, payload, state);
 
   switch (type) {
     case ACTION_CHANGE_THEME:

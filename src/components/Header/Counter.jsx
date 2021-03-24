@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import useStore from '../../core/store/useStore';
 import {changeElapsedTime} from '../../core/store/actions/gameLoop/actionCreators'
 
@@ -8,15 +8,6 @@ const Counter = ({ isRunningStopwatch }) => {
 
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-
-  const changeElapsedTimeSettings = useCallback(() => {
-    const secondsCount = gameLoop.elapsedTime += 1;
-
-    setMinutes(Math.floor(secondsCount / 60));
-    setSeconds(Math.floor(secondsCount % 60));
-
-    dispatch(changeElapsedTime(secondsCount));
-  });
 
   const formatTime = (time) => `${(time < 10 ? '0' : '')}${time}`;
 
@@ -29,7 +20,10 @@ const Counter = ({ isRunningStopwatch }) => {
   useEffect(() => {
     if (isRunningStopwatch) {
       const stopwatchInterval = window.setInterval(() => {
-        changeElapsedTimeSettings();
+        dispatch(changeElapsedTime(gameLoop.elapsedTime += 1));
+        
+        setMinutes(Math.floor(gameLoop.elapsedTime / 60));
+        setSeconds(Math.floor(gameLoop.elapsedTime % 60));    
       }, 1000);
       return () => window.clearInterval(stopwatchInterval);
     }

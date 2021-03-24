@@ -10,9 +10,9 @@ import {
   ACTION_CHANGE_CARD_MATCH_BATCH,
 } from './actionTypes';
 
-export const changeElapsedTime = (seconds) => {
+export const changeElapsedTime = (elapsedTime) => {
   return {
-    payload: {seconds},
+    payload: {elapsedTime},
     type: ACTION_CHANGE_ELAPSED_TIME,
   };
 };

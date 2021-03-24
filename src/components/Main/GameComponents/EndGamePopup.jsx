@@ -1,10 +1,8 @@
 import FinishButtons from '../GameComponents/FinishButtons';
 import CloseIcon from '../../../assets/close-icon.png'
-import {changeMovesCount} from '../../../core/store/actions/gameLoop/actionCreators'
 import useStore from '../../../core/store/useStore';
 
 const EndGamePopup = ({
-  stopwatchSeconds,
   startNewGame,
   backToMenu,
   isGameFinished,
@@ -13,8 +11,8 @@ const EndGamePopup = ({
   const {gameLoop} = state;
 
   const formatTime = (time) => `${(time < 10 ? '0' : '')}${time}`;
-  const minutes = Math.floor(stopwatchSeconds / 60);
-  const seconds = Math.floor(stopwatchSeconds % 60);
+  const minutes = Math.floor(gameLoop.elapsedTime / 60);
+  const seconds = Math.floor(gameLoop.elapsedTime % 60);
 
   return (
     <div className={
