@@ -1,10 +1,7 @@
-import {initialState} from '../initialState';
+import { initialState } from '../initialState';
 
 import {
   ACTION_CHANGE_THEME,
-  
-  
-  ACTION_TOGGLE_SOUND
 } from '../actions/appSettings/actionTypes';
 
 import {
@@ -13,6 +10,18 @@ import {
   ACTION_CHANGE_CURRENT_IMAGES,
   ACTION_CHANGE_FIELD_CSS_CLASS
 } from '../actions/gameSettings/actionTypes';
+
+import {
+  ACTION_TOGGLE_GAME_STARTED,
+  ACTION_TOGGLE_GAME_FINISHED,
+  ACTION_TOGGLE_STOPWATCH_RUNNING,
+  ACTION_CHANGE_ELAPSED_TIME,
+  ACTION_TOGGLE_MOVES_COUNT,
+  ACTION_CHANGE_HIGHT_SCORE,
+  ACTION_TOGGLE_GAME_CARDS_SET,
+  ACTION_CHANGE_FLIPS_COUNT,
+  ACTION_CHANGE_CARD_MATCH_BATCH,
+} from '../actions/gameLoop/actionTypes'
 
 
 
@@ -67,6 +76,14 @@ const rootReducer = (state = initialState, action) => {
         }
       };
 
+    case ACTION_CHANGE_ELAPSED_TIME:
+      return {
+        ...state,
+        gameLoop: {
+          ...state.gameLoop,
+          elapsedTime: state.elapsedTime,
+        }
+      };
 
     default:
       return state;

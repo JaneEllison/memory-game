@@ -1,55 +1,3 @@
-// игра началась, или нет, от этого зависит будет отображаться меню и все его компоненты, 
-// либо будет отображаться поле для игры
-const [isGameStarted, setIsGameStarted] = useState(savedStartGame || false);
-
-// идет ли таймер
-const [isRunningStopwatch, setIsRunningStopwatch] = useState(false);
-
-// кол-во прошедших секунд 
-const [stopwatchSeconds, setStopwatchSeconds] = useState(savedSeconds || 0);
-
-// кол-во ходов (кликов на карточку)
-const [movesCount, setMovesCount] = useState(savedMoves || 0);
-
-// наилучший результат по ходам
-const [highScore, setHighScore] = useState(0);
-
-// массив с нужными путями картинок, которые мы используем, выбрав ту, или иную тему
-const [currentImages, setCurrentImages] = useState(null);
-
-// для отображения окна завершения игры
-const [isGameFinished, setIsGameFinished] = useState(false);
-
-// включен ли звук
-const [isSoundOn, setIsSoundOn] = useState(savedIsSoundOn);
-
-// громкость звука
-const [soundValue, setSoundValue] = useState(savedSoundVolume || 0.5);
-
-// так как в игре несколько видов звука (правильно, неправильно, конец игры), тут хранится
-// путь на текущий звук, который передается в src audio
-const [currentTrack, setCurrentTrack] = useState(null);
-
-// включена ли музыка
-const [isMusicOn, setIsMusicOn] = useState(savedIsMusicOn);
-
-// громкость музыки
-const [musicValue, setMusicValue] = useState(savedMusicVolume || 0.5);
-
-// для каждой карточки - перевернута ли она
-const [flipped, setFlipped] = useState(false);
-
-// объект карточки с полями id, image, imageId, isFlipped, его мы обновляем, когда карточки совпали (поле 
-// isFlipped у карточки), либо когда начинаем новую игру)
-const [game, setGame] = useState([]);
-
-// кол-во кликов на карточку, по нему добавляет в массив flippedIndexes инидексы карточек
-const [flippedCount, setFlippedCount] = useState(0);
-
-// индексы перевернутых карточек и значек true - если карточки не совпали, и false - если соппали
-const [flippedIndexes, setFlippedIndexes] = useState([]);
-
-
 const state = {
   //global
 
@@ -65,7 +13,7 @@ const state = {
   isGameStarted: false, //boolean
   isGameFinished: false, //boolean
   isStopwatchRunning: false, //boolean
-  elapsedTime: 0, //number in ms
+  // elapsedTime: 0, //number in ms
   isSoundOn: true, //boolean
   soundVolume: 0.5, //number from 0 to 1
   currentSound: 'assets/sounds/right_sound.mp3', //string file to source

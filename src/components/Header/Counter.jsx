@@ -1,24 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import useStore from '../../core/store/useStore';
+import {changeElapsedTime} from '../../core/store/actions/gameLoop/actionCreators'
 
-const Counter = ({ isRunningStopwatch, stopwatchSeconds, setStopwatchSeconds, movesCount }) => {
-  const changeSeconds = (seconds) => {
-    setStopwatchSeconds(seconds);
-  };
+const Counter = ({ isRunningStopwatch, movesCount }) => {
+  const {dispatch, state} = useStore();
+  const {gameLoop} = state;
+
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+
+  const changeElapsedTimeSettings = useCallback(() => {
+    const secondsCount = gameLoop.elapsedTime += 1;
+
+    setMinutes(Math.floor(secondsCount / 60));
+    setSeconds(Math.floor(secondsCount % 60));
+
+    dispatch(changeElapsedTime(secondsCount));
+  });
 
   const formatTime = (time) => `${(time < 10 ? '0' : '')}${time}`;
-  const minutes = Math.floor(stopwatchSeconds / 60);
-  const seconds = Math.floor(stopwatchSeconds % 60);
-  
-  const secondsData = JSON.stringify(stopwatchSeconds);
-  localStorage.setItem('memorygameseconds', secondsData);
 
-  const movesData = JSON.stringify(movesCount);
-  localStorage.setItem('memorygamemoves', movesData);
+  // const secondsData = JSON.stringify(stopwatchSeconds);
+  // localStorage.setItem('memorygameseconds', secondsData);
+
+  // const movesData = JSON.stringify(movesCount);
+  // localStorage.setItem('memorygamemoves', movesData);
 
   useEffect(() => {
     if (isRunningStopwatch) {
       const stopwatchInterval = window.setInterval(() => {
-        changeSeconds((seconds) => seconds + 1);
+        changeElapsedTimeSettings();
       }, 1000);
       return () => window.clearInterval(stopwatchInterval);
     }

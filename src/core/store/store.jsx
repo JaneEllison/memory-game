@@ -1,5 +1,4 @@
 import React, { useReducer } from 'react';
-
 import rootReducer from './reducers/rootReducer';
 import {initialState} from './initialState';
 

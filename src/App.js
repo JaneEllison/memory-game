@@ -53,8 +53,6 @@ function App() {
       <div className="App">
         <Header
           isRunningStopwatch={isRunningStopwatch}
-          stopwatchSeconds={stopwatchSeconds}
-          setStopwatchSeconds={setStopwatchSeconds}
           movesCount={movesCount}
           highScore={highScore}
         />
