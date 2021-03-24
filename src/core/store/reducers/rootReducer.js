@@ -1,4 +1,7 @@
 import { initialState } from '../initialState';
+import {appSettingsReducer} from './appSettings/appSettingsReducer';
+import {gameSettingsReducer} from './gameSettings/gameSettingsReducer';
+import {gameLoopReducer} from './gameLoop/gameLoopReducer';
 
 import {
   ACTION_CHANGE_THEME,
@@ -22,8 +25,6 @@ import {
   ACTION_CHANGE_FLIPS_COUNT,
   ACTION_CHANGE_CARD_MATCH_BATCH,
 } from '../actions/gameLoop/actionTypes'
-
-
 
 const rootReducer = (state = initialState, action) => {
   const { payload, type } = action;
@@ -126,23 +127,24 @@ const rootReducer = (state = initialState, action) => {
   }
 };
 
+
+const reducers = {
+  appSettings: appSettingsReducer,
+  gameSettings: gameSettingsReducer,
+  gameLoop: gameLoopReducer,
+};
+
+const _rootReducer = (state = initialState, action) => {
+  const _reducers = Object.entries(reducers); //[ [appSettings, appSettingsReducer], [key, value] ]
+
+  return _reducers.reduce((acc, next) => {
+    const [key, reducerFn] = next;
+
+    return {
+      ...acc,
+      [key]: reducerFn(state[key], action),
+    };
+  }, {}); 
+};
+
 export default rootReducer;
-
-
-    // case ACTION_TOGGLE_SOUND:
-    //   return {
-    //     ...state,
-    //     appSettings: {
-    //       ...state.appSettings,
-    //       isSoundOn: payload.isChecked
-    //     },
-    //   }; 
-
-      // case ACTION_TURN_ON_SOUND:
-      //   return {
-      //     ...state,
-      //     appSettings: {
-      //       ...state.appSettings,
-      //       isSoundOn: true,
-      //     },
-      //   }; 
