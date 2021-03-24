@@ -10,6 +10,13 @@ import {
   ACTION_CHANGE_CARD_MATCH_BATCH,
 } from './actionTypes';
 
+export const toggleGameStarted = (isGameStarted) => {
+  return {
+    payload: {isGameStarted},
+    type: ACTION_TOGGLE_GAME_STARTED,
+  };
+};
+
 export const changeElapsedTime = (elapsedTime) => {
   return {
     payload: {elapsedTime},

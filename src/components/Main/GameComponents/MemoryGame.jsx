@@ -4,7 +4,8 @@ import Card from './Card';
 import images from '../../../constants/themes';
 import sounds from '../../../constants/sounds';
 
-import {changeCurrentImages} from '../../../core/store/actions/gameSettings/actionCreators'
+import {changeCurrentImages} from '../../../core/store/actions/gameSettings/actionCreators';
+import {toggleGameStarted} from '../../../core/store/actions/gameLoop/actionCreators';
 
 const finishSound = [...sounds].pop();
 
@@ -12,7 +13,6 @@ const MemoryGame = ({
   highScore,
   setHighScore,
   setIsRunningStopwatch,
-  setIsGameStarted,
   playSound,
   setCurrentTrack,
   setIsGameFinished,
@@ -76,7 +76,7 @@ const MemoryGame = ({
         playSound();
       }, 1000)
       setIsGameFinished(true);
-      setIsGameStarted('false');
+      dispatch(toggleGameStarted(false));
       setIsRunningStopwatch(false);
     }
 

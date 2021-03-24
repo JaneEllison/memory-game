@@ -28,7 +28,7 @@ import {
 const rootReducer = (state = initialState, action) => {
   const { payload, type } = action;
 
-  console.log('reducer', type, payload, state);
+  console.log('reducer', type, payload);
 
   switch (type) {
     case ACTION_CHANGE_THEME:
@@ -74,6 +74,15 @@ const rootReducer = (state = initialState, action) => {
           ...state.gameSettings,
           fieldCssClass: payload.fieldCssClass,
         }
+      };
+
+    case ACTION_TOGGLE_GAME_STARTED:
+      return {
+        ...state,
+        gameLoop: {
+          ...state.gameLoop,
+          isGameStarted: payload.isGameStarted,
+        },
       };
 
     case ACTION_CHANGE_ELAPSED_TIME:

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useCallback } from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import SoundSettings from './MenuComponents/SoundsSettings';
 import DifficultSettings from './MenuComponents/DifficultSettings';
 import ThemeSettings from './MenuComponents/ThemeSettings';
@@ -9,14 +9,15 @@ import MemoryGame from './GameComponents/MemoryGame';
 import EndGamePopup from './GameComponents/EndGamePopup';
 
 import useStore from '../../core/store/useStore';
-import {changeMovesCount, changeElapsedTime} from '../../core/store/actions/gameLoop/actionCreators';
+import {
+  toggleGameStarted,
+  changeMovesCount,
+  changeElapsedTime,
+} from '../../core/store/actions/gameLoop/actionCreators';
 
 const [themeMusic] = sounds;
 
 const Main = ({
-  isGameStarted,
-  setIsGameStarted,
-  setStopwatchSeconds,
   setIsRunningStopwatch,
   highScore,
   setHighScore,
@@ -52,35 +53,35 @@ const Main = ({
   let audioPlayer;
   let soundPlayer;
 
-  useEffect(() => {
-    if (localStorage.getItem('memorygameissoundon') === null) {
-      setIsSoundOn(true);
-      soundPlayer.muted = false;
-      setSoundValue(0.5);
-    } else {
-      if(!JSON.parse((localStorage.getItem('memorygameissoundon')))) {
-        setIsSoundOn(false);
-        soundPlayer.muted = true;
-        setSoundValue(0);
-      }
-    }
-    if (localStorage.getItem('memorygameismusicon') === null) {
-      setIsMusicOn(true);
-      audioPlayer.muted = false;
-      setMusicValue(0.5);
-    } else {
-      if(!JSON.parse((localStorage.getItem('memorygameismusicon')))) {
-        setIsMusicOn(false);
-        audioPlayer.muted = true;
-        setMusicValue(0);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem('memorygameissoundon') === null) {
+  //     setIsSoundOn(true);
+  //     soundPlayer.muted = false;
+  //     setSoundValue(0.5);
+  //   } else {
+  //     if(!JSON.parse((localStorage.getItem('memorygameissoundon')))) {
+  //       setIsSoundOn(false);
+  //       soundPlayer.muted = true;
+  //       setSoundValue(0);
+  //     }
+  //   }
+  //   if (localStorage.getItem('memorygameismusicon') === null) {
+  //     setIsMusicOn(true);
+  //     audioPlayer.muted = false;
+  //     setMusicValue(0.5);
+  //   } else {
+  //     if(!JSON.parse((localStorage.getItem('memorygameismusicon')))) {
+  //       setIsMusicOn(false);
+  //       audioPlayer.muted = true;
+  //       setMusicValue(0);
+  //     }
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    const json = JSON.stringify(isGameStarted);
-    localStorage.setItem('memorygamestart', json);
-  }, [isGameStarted])
+  // useEffect(() => {
+  //   const json = JSON.stringify(isGameStarted);
+  //   localStorage.setItem('memorygamestart', json);
+  // }, [gameLoop.isGameStarted])
 
   const initPlayer = () => {
     audioPlayer = document.getElementById('music');
@@ -147,17 +148,17 @@ const Main = ({
   };
 
   const startNewGame = () => {
-    setIsGameStarted(false);
+    dispatch(toggleGameStarted(false));
     changeElapsedTimeSettings(0);
     changeMovesCountValue(0);
     setIsGameFinished(false);
     setTimeout(() => {
-      setIsGameStarted(true);
+      dispatch(toggleGameStarted(true));
     }, 0);
   };
 
   const backToGame = () => {
-    setIsGameStarted(true);
+    dispatch(toggleGameStarted(true));
     setIsRunningStopwatch(true);
   }
 
@@ -165,7 +166,7 @@ const Main = ({
     changeMovesCountValue(0);
     changeElapsedTimeSettings(0);
     setIsGameFinished(false);
-    setIsGameStarted(false);
+    dispatch(toggleGameStarted(false));
   }
 
   return (
@@ -184,7 +185,7 @@ const Main = ({
         startNewGame={startNewGame}
         backToMenu={backToMenu}
       />
-      {!isGameStarted
+      {!gameLoop.isGameStarted
         ? (
           <>
             <div className="first__block_settings">
@@ -216,14 +217,12 @@ const Main = ({
           <>
             <GameButtons
               setIsRunningStopwatch={setIsRunningStopwatch}
-              setIsGameStarted={setIsGameStarted}
               startNewGame={startNewGame}
             />
             <MemoryGame
               highScore={highScore}
               setHighScore={setHighScore}
               setIsRunningStopwatch={setIsRunningStopwatch}
-              setIsGameStarted={setIsGameStarted}
               playSound={playSound}
               setCurrentTrack={setCurrentTrack}
               setIsGameFinished={setIsGameFinished}
