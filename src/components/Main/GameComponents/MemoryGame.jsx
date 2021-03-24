@@ -5,13 +5,15 @@ import images from '../../../constants/themes';
 import sounds from '../../../constants/sounds';
 
 import {changeCurrentImages} from '../../../core/store/actions/gameSettings/actionCreators';
-import {toggleGameStarted, toggleGameFinished} from '../../../core/store/actions/gameLoop/actionCreators';
+import {
+  toggleGameStarted,
+  toggleGameFinished,
+  changeHighScore,
+} from '../../../core/store/actions/gameLoop/actionCreators';
 
 const finishSound = [...sounds].pop();
 
 const MemoryGame = ({ 
-  highScore,
-  setHighScore,
   setIsRunningStopwatch,
   playSound,
   setCurrentTrack,
@@ -66,9 +68,9 @@ const MemoryGame = ({
     if (finished && game.length > 0) {
       setTimeout(() => {
         let score = gameLoop.movesCount;
-        if (score > highScore) {
-          setHighScore(score);
-          const savedHighScore = JSON.stringify(highScore);
+        if (score > gameLoop.highScore) {
+          dispatch(changeHighScore(score));
+          const savedHighScore = JSON.stringify(gameLoop.highScore);
           localStorage.setItem('memorygamehighscore', savedHighScore);
         }
         setCurrentTrack(finishSound);

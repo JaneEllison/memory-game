@@ -37,3 +37,10 @@ export const changeMovesCount = (movesCount) => {
     type: ACTION_CHANGE_MOVES_COUNT,
   };
 };
+
+export const changeHighScore = (highScore) => {
+  return {
+    payload: {highScore},
+    type: ACTION_CHANGE_HIGHT_SCORE,
+  };
+};

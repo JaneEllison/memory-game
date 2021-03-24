@@ -20,8 +20,6 @@ const [themeMusic] = sounds;
 
 const Main = ({
   setIsRunningStopwatch,
-  highScore,
-  setHighScore,
 }) => {
   const {dispatch, state} = useStore();
   const {gameLoop} = state;
@@ -218,8 +216,6 @@ const Main = ({
               startNewGame={startNewGame}
             />
             <MemoryGame
-              highScore={highScore}
-              setHighScore={setHighScore}
               setIsRunningStopwatch={setIsRunningStopwatch}
               playSound={playSound}
               setCurrentTrack={setCurrentTrack}

@@ -6,13 +6,14 @@ import useStore from '../../core/store/useStore';
 import {changeTheme} from '../../core/store/actions/appSettings/actionCreators'
 
 const Header = ({
-  highScore,
   isRunningStopwatch,
   stopwatchSeconds,
   setStopwatchSeconds,
 }) => {
   const {dispatch, state} = useStore();
-  const isChecked = state.appSettings.theme === 'light';
+  const {appSettings, gameLoop} = state;
+
+  const isChecked = appSettings.theme === 'light';
 
   const toggleTheme = useCallback((event) => {
     const {checked} = event.target;
@@ -39,7 +40,7 @@ const Header = ({
         <label htmlFor="switcher__theme"></label>
       </span>
       <div>
-        High Score: {highScore}
+        High Score: {gameLoop.highScore}
       </div>
       <Counter
         isRunningStopwatch={isRunningStopwatch}

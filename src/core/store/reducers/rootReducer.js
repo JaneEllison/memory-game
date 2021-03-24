@@ -112,6 +112,15 @@ const rootReducer = (state = initialState, action) => {
         }
       };
 
+    case ACTION_CHANGE_HIGHT_SCORE:
+      return {
+        ...state,
+        gameLoop: {
+          ...state.gameLoop,
+          highScore: payload.highScore,
+        }
+      };
+
     default:
       return state;
   }

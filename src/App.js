@@ -35,27 +35,23 @@ function App() {
   }, [state.appSettings.theme]);
 
   const [isRunningStopwatch, setIsRunningStopwatch] = useState(false);
-  const [highScore, setHighScore] = useState(0);
 
-  useEffect(() => {
-    const highScore = localStorage.getItem('memorygamehighscore');
-    const savedScore = JSON.parse(highScore);
-    if (savedScore) {
-      setHighScore(savedScore);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const highScore = localStorage.getItem('memorygamehighscore');
+  //   const savedScore = JSON.parse(highScore);
+  //   if (savedScore) {
+  //     setHighScore(savedScore);
+  //   };
+  // }, []);
 
   return (
     <ModeContext.Provider value={state.theme}>
       <div className="App">
         <Header
           isRunningStopwatch={isRunningStopwatch}
-          highScore={highScore}
         />
         <Main
           setIsRunningStopwatch={setIsRunningStopwatch}
-          highScore={highScore}
-          setHighScore={setHighScore}
         />
         <Footer />
       </div>
