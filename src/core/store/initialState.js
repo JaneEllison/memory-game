@@ -1,6 +1,6 @@
 const appSettings = {
   theme: 'dark',
-  isSoundOn: true, //boolean
+  isSoundOn: true,
   soundVolume: 0.5, //number from 0 to 1
   isMusicOn: true, //boolean
   musicValue: 0.5, //number from 0 to 1

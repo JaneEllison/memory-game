@@ -1,6 +1,8 @@
 import {
   ACTION_CHANGE_THEME,
   ACTION_TOGGLE_SOUND,
+  ACTION_TOGGLE_MUSIC,
+
 } from './actionTypes';
 
 export const changeTheme = (theme) => {
@@ -10,17 +12,16 @@ export const changeTheme = (theme) => {
   };
 };
 
-// export const toggleSound = (isChecked) => {
-//   return {
-//     payload: {isChecked},
-//     type: ACTION_TOGGLE_SOUND,
-//   };
-// };
+export const toggleSound = (isCheckedSound) => {
+  return {
+    payload: {isCheckedSound},
+    type: ACTION_TOGGLE_SOUND,
+  };
+};
 
-// dispatchEvent(toggleSound(true/false))
-
-// export const turnOnSound = () => {
-//   return {
-//     type: ACTION_TURN_ON_SOUND,
-//   };
-// };
+export const toggleMusic = (isCheckedMusic) => {
+  return {
+    payload: {isCheckedMusic},
+    type: ACTION_TOGGLE_MUSIC,
+  };
+};

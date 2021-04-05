@@ -6,11 +6,10 @@ import {
 } from '../../actions/gameSettings/actionTypes';
 
 const initialState = {
-  theme: 'dark',
-  isSoundOn: true, //boolean
-  soundVolume: 0.5, //number from 0 to 1
-  isMusicOn: true, //boolean
-  musicValue: 0.5, //number from 0 to 1
+  difficulty: '18',
+  cardTheme: 'stars',
+  currentImages: ['abstract_1', 'abstract_2'],
+  fieldCssClass: 'field__normal',
 };
 
 export const gameSettingsReducer = (state = initialState, action) => {

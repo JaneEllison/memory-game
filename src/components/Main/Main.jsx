@@ -1,14 +1,14 @@
 import React, { useState, useLayoutEffect, useCallback } from "react";
+import useStore from '../../core/store/useStore';
+
 import SoundSettings from './MenuComponents/SoundsSettings';
 import DifficultSettings from './MenuComponents/DifficultSettings';
 import ThemeSettings from './MenuComponents/ThemeSettings';
 import NavButtons from './MenuComponents/NavButtons';
 import GameButtons from './GameComponents/GameButtons';
-import sounds from '../../constants/sounds';
 import MemoryGame from './GameComponents/MemoryGame';
 import EndGamePopup from './GameComponents/EndGamePopup';
 
-import useStore from '../../core/store/useStore';
 import {
   toggleGameStarted,
   toggleGameFinished,
@@ -17,30 +17,34 @@ import {
   toggleStopwatchRunning,
 } from '../../core/store/actions/gameLoop/actionCreators';
 
+import {
+  toggleSound,
+  toggleMusic,
+} from '../../core/store/actions/appSettings/actionCreators';
+
+import sounds from '../../constants/sounds';
+
 const [themeMusic] = sounds;
 
 const Main = () => {
   const {dispatch, state} = useStore();
-  const {gameLoop} = state;
+  const {appSettings, gameLoop} = state;
 
   const changeElapsedTimeSettings = useCallback((seconds) => {
     dispatch(changeElapsedTime(seconds));
-    console.log('changeElapsedTime', seconds)
   });
 
-  const savedIsSoundOn = JSON.parse(localStorage.getItem('memorygameissoundon'));
-  const savedSoundVolume = JSON.parse(localStorage.getItem('memorygamesoundvolume'));
+  // const savedIsSoundOn = JSON.parse(localStorage.getItem('memorygameissoundon'));
+  // const savedSoundVolume = JSON.parse(localStorage.getItem('memorygamesoundvolume'));
 
-  const savedIsMusicOn = JSON.parse(localStorage.getItem('memorygameismusicon'));
-  const savedMusicVolume = JSON.parse(localStorage.getItem('memorygamemusicvolume'));
+  // const savedIsMusicOn = JSON.parse(localStorage.getItem('memorygameismusicon'));
+  // const savedMusicVolume = JSON.parse(localStorage.getItem('memorygamemusicvolume'));
 
-  const [isSoundOn, setIsSoundOn] = useState(savedIsSoundOn);
-  const [soundValue, setSoundValue] = useState(savedSoundVolume || 0.5);
+  const [soundValue, setSoundValue] = useState(0.5);
 
   const [currentTrack, setCurrentTrack] = useState(null);
 
-  const [isMusicOn, setIsMusicOn] = useState(savedIsMusicOn);
-  const [musicValue, setMusicValue] = useState(savedMusicVolume || 0.5);
+  const [musicValue, setMusicValue] = useState(0.5);
 
   const changeMovesCountValue = useCallback((movesCount) => {
     dispatch(changeMovesCount(movesCount));
@@ -92,17 +96,17 @@ const Main = () => {
   const formatVolume = (volume) => `${Math.round(volume * 10000) / 100}%`;
 
   const changeSoundState = () => {
-    setIsSoundOn(!isSoundOn);
+    dispatch(toggleSound(!appSettings.isSoundOn));
     handleMuteSound();
-    localStorage.setItem('memorygameissoundon', JSON.stringify(!isSoundOn));
-    localStorage.setItem('memorygamesoundvolume', soundValue);
+    // localStorage.setItem('memorygameissoundon', JSON.stringify(!isSoundOn));
+    // localStorage.setItem('memorygamesoundvolume', soundValue);
   };
 
   const changeMusicState = () => {
-    setIsMusicOn(!isMusicOn);
+    dispatch(toggleMusic(!appSettings.isMusicOn));
     handleMuteMusic();
-    localStorage.setItem('memorygameismusicon', JSON.stringify(!isMusicOn));
-    localStorage.setItem('memorygamemusicvolume', musicValue);
+    // localStorage.setItem('memorygameismusicon', JSON.stringify(!isMusicOn));
+    // localStorage.setItem('memorygamemusicvolume', musicValue);
   };
 
   const setVolumeAudio = () => {
@@ -117,7 +121,7 @@ const Main = () => {
   };
 
   const handleMuteMusic = () => {
-    if (isMusicOn) {
+    if (appSettings.isMusicOn) {
       setTimeout(() => {
         audioPlayer.muted = true;
         setMusicValue(0);
@@ -130,7 +134,7 @@ const Main = () => {
     }
   };
   const handleMuteSound = () => {
-    if (isSoundOn) {
+    if (appSettings.isSoundOn) {
       setTimeout(() => {
         soundPlayer.muted = true;
         setSoundValue(0);
@@ -187,8 +191,6 @@ const Main = () => {
           <>
             <div className="first__block_settings">
               <SoundSettings
-                isSoundOn={isSoundOn}
-                isMusicOn={isMusicOn}
                 changeSoundState={changeSoundState}
                 changeMusicState={changeMusicState}
                 soundValue={soundValue}

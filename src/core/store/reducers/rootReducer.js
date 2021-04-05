@@ -5,6 +5,9 @@ import { gameLoopReducer } from './gameLoop/gameLoopReducer';
 
 import {
   ACTION_CHANGE_THEME,
+  ACTION_TOGGLE_SOUND,
+  ACTION_TOGGLE_MUSIC,
+
 } from '../actions/appSettings/actionTypes';
 
 import {
@@ -38,6 +41,24 @@ const rootReducer = (state = initialState, action) => {
         appSettings: {
           ...state.appSettings,
           theme: payload.theme,
+        }
+      };
+
+    case ACTION_TOGGLE_SOUND:
+      return {
+        ...state,
+        appSettings: {
+          ...state.appSettings,
+          isSoundOn: payload.isCheckedSound,
+        }
+      };
+
+    case ACTION_TOGGLE_MUSIC:
+      return {
+        ...state,
+        appSettings: {
+          ...state.appSettings,
+          isMusicOn: payload.isCheckedMusic,
         }
       };
 
