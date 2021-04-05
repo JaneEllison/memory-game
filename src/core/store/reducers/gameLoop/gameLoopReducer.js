@@ -22,7 +22,7 @@ const initialState = {
   cardMatchBatch: [], // [number, number, boolean] // 0 and 1 cards indexes 2 comparison result
 };
 
-export const gameSettingsReducer = (state = initialState, action) => {
+export const gameLoopReducer = (state = initialState, action) => {
   const { payload, type } = action;
 
   switch (type) {
@@ -65,7 +65,4 @@ export const gameSettingsReducer = (state = initialState, action) => {
     default:
       return state;
   }
-
-
-
 }
