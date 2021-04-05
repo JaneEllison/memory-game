@@ -9,12 +9,12 @@ import {
   toggleGameStarted,
   toggleGameFinished,
   changeHighScore,
+  toggleStopwatchRunning,
 } from '../../../core/store/actions/gameLoop/actionCreators';
 
 const finishSound = [...sounds].pop();
 
 const MemoryGame = ({ 
-  setIsRunningStopwatch,
   playSound,
   setCurrentTrack,
 }) => {
@@ -53,10 +53,10 @@ const MemoryGame = ({
   
       const shuffledGame = newGame.sort(() => Math.random() - 0.5);
       setGame(shuffledGame);
-      setIsRunningStopwatch(true);
+      dispatch(toggleStopwatchRunning(true));
     } else {
       setGame(savedGame);
-      setIsRunningStopwatch(true);
+      dispatch(toggleStopwatchRunning(true));
       // setField(savedField);
     }
 
@@ -78,7 +78,7 @@ const MemoryGame = ({
       }, 1000)
       dispatch(toggleGameFinished(true));
       dispatch(toggleGameStarted(false));
-      setIsRunningStopwatch(false);
+      dispatch(toggleStopwatchRunning(false));
     }
 
     const savedGame = JSON.stringify(game);

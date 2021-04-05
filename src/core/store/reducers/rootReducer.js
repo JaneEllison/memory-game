@@ -1,7 +1,7 @@
 import { initialState } from '../initialState';
-import {appSettingsReducer} from './appSettings/appSettingsReducer';
-import {gameSettingsReducer} from './gameSettings/gameSettingsReducer';
-import {gameLoopReducer} from './gameLoop/gameLoopReducer';
+import { appSettingsReducer } from './appSettings/appSettingsReducer';
+import { gameSettingsReducer } from './gameSettings/gameSettingsReducer';
+import { gameLoopReducer } from './gameLoop/gameLoopReducer';
 
 import {
   ACTION_CHANGE_THEME,
@@ -95,6 +95,15 @@ const rootReducer = (state = initialState, action) => {
         },
       };
 
+    case ACTION_TOGGLE_STOPWATCH_RUNNING:
+      return {
+        ...state,
+        gameLoop: {
+          ...state.gameLoop,
+          isStopwatchRunning: payload.isStopwatchRunning,
+        },
+      };
+
     case ACTION_CHANGE_ELAPSED_TIME:
       return {
         ...state,
@@ -144,7 +153,7 @@ const _rootReducer = (state = initialState, action) => {
       ...acc,
       [key]: reducerFn(state[key], action),
     };
-  }, {}); 
+  }, {});
 };
 
 export default rootReducer;

@@ -34,8 +34,6 @@ function App() {
     });
   }, [state.appSettings.theme]);
 
-  const [isRunningStopwatch, setIsRunningStopwatch] = useState(false);
-
   // useEffect(() => {
   //   const highScore = localStorage.getItem('memorygamehighscore');
   //   const savedScore = JSON.parse(highScore);
@@ -47,12 +45,8 @@ function App() {
   return (
     <ModeContext.Provider value={state.theme}>
       <div className="App">
-        <Header
-          isRunningStopwatch={isRunningStopwatch}
-        />
-        <Main
-          setIsRunningStopwatch={setIsRunningStopwatch}
-        />
+        <Header />
+        <Main />
         <Footer />
       </div>
     </ModeContext.Provider>

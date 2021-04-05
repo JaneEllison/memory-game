@@ -5,11 +5,7 @@ import useStore from '../../core/store/useStore';
 
 import {changeTheme} from '../../core/store/actions/appSettings/actionCreators'
 
-const Header = ({
-  isRunningStopwatch,
-  stopwatchSeconds,
-  setStopwatchSeconds,
-}) => {
+const Header = () => {
   const {dispatch, state} = useStore();
   const {appSettings, gameLoop} = state;
 
@@ -42,11 +38,7 @@ const Header = ({
       <div>
         High Score: {gameLoop.highScore}
       </div>
-      <Counter
-        isRunningStopwatch={isRunningStopwatch}
-        stopwatchSeconds={stopwatchSeconds}
-        setStopwatchSeconds={setStopwatchSeconds}
-      />
+      <Counter />
     </header>
   )
 };

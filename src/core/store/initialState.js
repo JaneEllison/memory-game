@@ -16,7 +16,7 @@ const gameSettings = {
 const gameLoop = {
   isGameStarted: false,
   isGameFinished: false,
-  isStopwatchRunning: false, //boolean
+  isStopwatchRunning: false,
   elapsedTime: 0,
   movesCount: 0,
   highScore: 0, // number TODO: refactor to Array<{score: number, name: string, moves: number, difficulty: string}>

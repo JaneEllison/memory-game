@@ -44,6 +44,12 @@ export const gameLoopReducer = (state = initialState, action) => {
         isGameFinished: payload.isGameFinished,
       };
 
+    case ACTION_TOGGLE_STOPWATCH_RUNNING:
+      return {
+        ...state,
+        isStopwatchRunning: payload.isStopwatchRunning,
+      };
+
     case ACTION_CHANGE_ELAPSED_TIME:
       return {
         ...state,

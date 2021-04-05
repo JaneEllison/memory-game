@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useStore from '../../core/store/useStore';
 import {changeElapsedTime} from '../../core/store/actions/gameLoop/actionCreators'
 
-const Counter = ({ isRunningStopwatch }) => {
+const Counter = () => {
   const {dispatch, state} = useStore();
   const {gameLoop} = state;
 
@@ -18,7 +18,9 @@ const Counter = ({ isRunningStopwatch }) => {
   // localStorage.setItem('memorygamemoves', movesData);
 
   useEffect(() => {
-    if (isRunningStopwatch) {
+    console.log(gameLoop.isStopwatchRunning)
+
+    if (gameLoop.isStopwatchRunning) {
       const stopwatchInterval = window.setInterval(() => {
         dispatch(changeElapsedTime(gameLoop.elapsedTime += 1));
         
@@ -28,7 +30,7 @@ const Counter = ({ isRunningStopwatch }) => {
       return () => window.clearInterval(stopwatchInterval);
     }
     return undefined;
-  }, [isRunningStopwatch]);
+  }, [gameLoop.isStopwatchRunning]);
 
   return (
     <div className="statistic">

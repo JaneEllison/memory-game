@@ -1,8 +1,10 @@
 import useStore from '../../../core/store/useStore';
-import {toggleGameStarted} from '../../../core/store/actions/gameLoop/actionCreators';
+import {
+  toggleGameStarted,
+  toggleStopwatchRunning,
+} from '../../../core/store/actions/gameLoop/actionCreators';
 
 const GameButtons = ({
-  setIsRunningStopwatch,
   startNewGame
 }) => {
   const {dispatch} = useStore();
@@ -18,7 +20,7 @@ const GameButtons = ({
         Restart
       </button>
       <button onClick={() => {
-        setIsRunningStopwatch(false);
+        dispatch(toggleStopwatchRunning(false));
         dispatch(toggleGameStarted(false));
       }}>
         Menu

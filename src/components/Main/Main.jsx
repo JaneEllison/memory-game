@@ -14,18 +14,18 @@ import {
   toggleGameFinished,
   changeMovesCount,
   changeElapsedTime,
+  toggleStopwatchRunning,
 } from '../../core/store/actions/gameLoop/actionCreators';
 
 const [themeMusic] = sounds;
 
-const Main = ({
-  setIsRunningStopwatch,
-}) => {
+const Main = () => {
   const {dispatch, state} = useStore();
   const {gameLoop} = state;
 
   const changeElapsedTimeSettings = useCallback((seconds) => {
     dispatch(changeElapsedTime(seconds));
+    console.log('changeElapsedTime', seconds)
   });
 
   const savedIsSoundOn = JSON.parse(localStorage.getItem('memorygameissoundon'));
@@ -145,6 +145,7 @@ const Main = ({
 
   const startNewGame = () => {
     changeElapsedTimeSettings(0);
+
     changeMovesCountValue(0);
     dispatch(toggleGameStarted(false));
     dispatch(toggleGameFinished(false));
@@ -156,7 +157,7 @@ const Main = ({
 
   const backToGame = () => {
     dispatch(toggleGameStarted(true));
-    setIsRunningStopwatch(true);
+    dispatch(toggleStopwatchRunning(true));
   }
 
   const backToMenu = () => {
@@ -212,11 +213,9 @@ const Main = ({
         : (
           <>
             <GameButtons
-              setIsRunningStopwatch={setIsRunningStopwatch}
               startNewGame={startNewGame}
             />
             <MemoryGame
-              setIsRunningStopwatch={setIsRunningStopwatch}
               playSound={playSound}
               setCurrentTrack={setCurrentTrack}
             />
