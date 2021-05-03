@@ -1,1 +1,1 @@
-# memory-game
+Memory game with using React.
