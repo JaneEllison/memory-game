@@ -1,15 +1,26 @@
-import '../Header/SwitcherStyle.css'
+import '../Header/SwitcherStyle.css';
+import {useCallback} from 'react';
 import Counter from '../Header/Counter';
+import useStore from '../../core/store/useStore';
 
-const Header = ({
-  highScore,
-  isRunningStopwatch,
-  stopwatchSeconds,
-  setStopwatchSeconds,
-  movesCount,
-  toggleTheme,
-  isChecked,
-}) => {
+import {changeTheme} from '../../core/store/actions/appSettings/actionCreators'
+
+const Header = () => {
+  const {dispatch, state} = useStore();
+  const {appSettings, gameLoop} = state;
+
+  const isChecked = appSettings.theme === 'light';
+
+  const toggleTheme = useCallback((event) => {
+    const {checked} = event.target;
+    const newMode = checked? 'light' : 'dark';
+
+    dispatch(changeTheme(newMode));
+
+    localStorage.setItem('mode', newMode);
+  });
+
+
     return (
     <header className="App-header">
       <h1>
@@ -25,14 +36,9 @@ const Header = ({
         <label htmlFor="switcher__theme"></label>
       </span>
       <div>
-        High Score: {highScore}
+        High Score: {gameLoop.highScore}
       </div>
-      <Counter
-        isRunningStopwatch={isRunningStopwatch}
-        stopwatchSeconds={stopwatchSeconds}
-        setStopwatchSeconds={setStopwatchSeconds}
-        movesCount={movesCount}
-      />
+      <Counter />
     </header>
   )
 };

@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
+import useStore from '../../../core/store/useStore';
 import Card from './Card';
+import images from '../../../constants/themes';
 import sounds from '../../../constants/sounds';
+
+import {changeCurrentImages} from '../../../core/store/actions/gameSettings/actionCreators';
+import {
+  toggleGameStarted,
+  toggleGameFinished,
+  changeHighScore,
+  toggleStopwatchRunning,
+} from '../../../core/store/actions/gameLoop/actionCreators';
 
 const finishSound = [...sounds].pop();
 
 const MemoryGame = ({ 
-  options,
-  highScore,
-  setHighScore,
-  setIsRunningStopwatch,
-  movesCount,
-  setMovesCount,
-  setIsGameStarted,
   playSound,
   setCurrentTrack,
-  field,
-  currentImages,
-  setIsGameFinished,
-  setField,
 }) => {
+  const {dispatch, state} = useStore();
+  const {gameSettings, gameLoop} = state;
+
   const savedGame = JSON.parse(localStorage.getItem('memorygame'));
   const savedField = JSON.parse(localStorage.getItem('memoryfield'));
 
@@ -27,19 +29,21 @@ const MemoryGame = ({
   const [flippedIndexes, setFlippedIndexes] = useState([]);
 
   useEffect(() => {
-    if(movesCount === 0) {
+    if(gameLoop.movesCount === 0) {
+      dispatch(changeCurrentImages(images[gameSettings.cardTheme]));
+
       const newGame = [];
-      for (let i = 0; i < options.difficult / 2; i++) {
+      for (let i = 0; i < gameSettings.difficulty / 2; i++) {
         const firstOption = {
           id: 2 * i,
           imgId: i,
-          image: currentImages?.[i],
+          image: gameSettings.currentImages[i],
           flipped: false,
         };
         const secondOption = {
           id: 2 * i + 1,
           imgId: i,
-          image: currentImages?.[i],
+          image: gameSettings.currentImages[i],
           flipped: false,
         };
   
@@ -49,31 +53,32 @@ const MemoryGame = ({
   
       const shuffledGame = newGame.sort(() => Math.random() - 0.5);
       setGame(shuffledGame);
-      setIsRunningStopwatch(true);
+      dispatch(toggleStopwatchRunning(true));
     } else {
       setGame(savedGame);
-      setIsRunningStopwatch(true);
-      setField(savedField);
+      dispatch(toggleStopwatchRunning(true));
+      // setField(savedField);
     }
-  }, [currentImages, options.difficult]);
+
+  }, [gameSettings.currentImages]);
 
   useEffect(() => {
     const finished = !game.some(card => !card.flipped);
 
     if (finished && game.length > 0) {
       setTimeout(() => {
-        let score = movesCount;
-        if (score > highScore) {
-          setHighScore(score);
-          const savedHighScore = JSON.stringify(highScore);
+        let score = gameLoop.movesCount;
+        if (score > gameLoop.highScore) {
+          dispatch(changeHighScore(score));
+          const savedHighScore = JSON.stringify(gameLoop.highScore);
           localStorage.setItem('memorygamehighscore', savedHighScore);
         }
         setCurrentTrack(finishSound);
         playSound();
       }, 1000)
-      setIsGameFinished(true);
-      setIsGameStarted('false');
-      setIsRunningStopwatch(false);
+      dispatch(toggleGameFinished(true));
+      dispatch(toggleGameStarted(false));
+      dispatch(toggleStopwatchRunning(false));
     }
 
     const savedGame = JSON.stringify(game);
@@ -108,7 +113,7 @@ const MemoryGame = ({
             className="cards"
           >
             {game.map((card, index) => (
-              <div className={`card ${field}`} key={index}>
+              <div className={`card ${gameSettings.fieldCssClass}`} key={index}>
                 <Card
                   id={index}
                   image={card.image}
@@ -117,11 +122,8 @@ const MemoryGame = ({
                   setFlippedCount={setFlippedCount}
                   flippedIndexes={flippedIndexes}
                   setFlippedIndexes={setFlippedIndexes}
-                  movesCount={movesCount}
-                  setMovesCount={setMovesCount}
                   playSound={playSound}
                   setCurrentTrack={setCurrentTrack}
-                  field={field}
                 />
               </div>
             ))}

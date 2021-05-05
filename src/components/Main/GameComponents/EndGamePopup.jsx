@@ -1,20 +1,21 @@
 import FinishButtons from '../GameComponents/FinishButtons';
 import CloseIcon from '../../../assets/close-icon.png'
+import useStore from '../../../core/store/useStore';
 
 const EndGamePopup = ({
-  movesCount,
-  stopwatchSeconds,
   startNewGame,
   backToMenu,
-  isGameFinished,
 }) => {
+  const {state} = useStore();
+  const {gameLoop} = state;
+
   const formatTime = (time) => `${(time < 10 ? '0' : '')}${time}`;
-  const minutes = Math.floor(stopwatchSeconds / 60);
-  const seconds = Math.floor(stopwatchSeconds % 60);
+  const minutes = Math.floor(gameLoop.elapsedTime / 60);
+  const seconds = Math.floor(gameLoop.elapsedTime % 60);
 
   return (
     <div className={
-      isGameFinished
+      gameLoop.isGameFinished
       ? "end_game__popup"
       : "end_game__popup hidden"
     }
@@ -32,7 +33,7 @@ const EndGamePopup = ({
         </div>
         <div className="end_game__popup-stats">
           <span>Time: {formatTime(minutes)}:{formatTime(seconds)}</span>
-          <span>Moves: {movesCount}</span>
+          <span>Moves: {gameLoop.movesCount}</span>
         </div>
         <FinishButtons
           startNewGame={startNewGame}

@@ -1,27 +1,27 @@
+import useStore from '../../../core/store/useStore';
+import {
+  toggleGameStarted,
+  toggleStopwatchRunning,
+} from '../../../core/store/actions/gameLoop/actionCreators';
+
 const GameButtons = ({
-  setIsGameStarted,
-  setIsRunningStopwatch,
-  setStopwatchSeconds,
-  setMovesCount,
+  startNewGame
 }) => {
+  const {dispatch} = useStore();
+
   return (
     <div>
       <button
         className="restart__button"
         onClick={() => {
-          setStopwatchSeconds(0);
-          setMovesCount(0);
-          setIsGameStarted(false);
-          setTimeout(() => {
-            setIsGameStarted(true);
-          }, 5);
+          startNewGame()
         }}
       >
         Restart
       </button>
       <button onClick={() => {
-        setIsRunningStopwatch(false);
-        setIsGameStarted(false);
+        dispatch(toggleStopwatchRunning(false));
+        dispatch(toggleGameStarted(false));
       }}>
         Menu
       </button>
