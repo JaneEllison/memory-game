@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSpring, animated as a } from "react-spring";
 import sounds from '../../../constants/sounds'
+import useStore from '../../../core/store/useStore';
+import {changeMovesCount} from '../../../core/store/actions/gameLoop/actionCreators'
 
 const rightSouns = sounds[1];
 const wrongSound = sounds[2];
@@ -13,19 +15,19 @@ const Card = ({
   setFlippedCount,
   flippedIndexes,
   setFlippedIndexes,
-  movesCount,
-  setMovesCount,
   playSound,
   setCurrentTrack,
-  field,
 }) => {
-  useEffect(() => {
-    if(game[id].flipped){
-      setFlipped(flipped => !flipped);
-    }
-  },[])
+  const {dispatch, state} = useStore();
+  const {gameSettings, gameLoop} = state;
 
-  const [flipped, setFlipped] = useState(false);
+
+  const changeMovesCountValue = useCallback(() => {
+    const movesCounter = gameLoop.movesCount + 1;
+    dispatch(changeMovesCount(movesCounter));
+  });
+
+  const [flipped, setFlipped] = useState(game[id].flipped);
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
@@ -60,21 +62,21 @@ const Card = ({
       const newIndexes = [...flippedIndexes];
       newIndexes.push(id);
       setFlippedIndexes(newIndexes);
-      setMovesCount(movesCount + 1);
+      changeMovesCountValue();
     };
   };
 
   return (
     <div onClick={onCardClick}>
       <a.div
-        className={`c back ${field}`}
+        className={`c back ${gameSettings.fieldCssClass}`}
         style={{
           opacity: opacity.interpolate(o => 1 - o),
           transform,
         }}
       />
       <a.div
-        className={`c front ${field}`}
+        className={`c front ${gameSettings.fieldCssClass}`}
         style={{
           opacity,
           transform: transform.interpolate(t => `${t} rotateX(180deg)`),

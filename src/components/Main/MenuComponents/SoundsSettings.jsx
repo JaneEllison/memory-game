@@ -1,6 +1,6 @@
+import useStore from '../../../core/store/useStore';
+
 const SoundSettings = ({
-  isSoundOn,
-  isMusicOn,
   changeSoundState,
   changeMusicState,
   soundValue,
@@ -11,18 +11,21 @@ const SoundSettings = ({
   setVolumeAudio,
   formatVolume,
 }) => {
+  const {dispatch, state} = useStore();
+  const {appSettings} = state;
+
   const changeSoundVolume = (event) => {
     setSoundValue(event.target.value);
     setVolumeSound();
-    localStorage.setItem('memorygameissoundon', JSON.stringify(isSoundOn));
-    localStorage.setItem('memorygamesoundvolume', soundValue);
+    // localStorage.setItem('memorygameissoundon', JSON.stringify(isSoundOn));
+    // localStorage.setItem('memorygamesoundvolume', soundValue);
   };
 
   const changeMusicVolume = (event) => {
     setMusicValue(event.target.value);
     setVolumeAudio();
-    localStorage.setItem('memorygameismusicon', JSON.stringify(isMusicOn));
-    localStorage.setItem('memorygamemusicvolume', musicValue);
+    // localStorage.setItem('memorygameismusicon', JSON.stringify(isMusicOn));
+    // localStorage.setItem('memorygamemusicvolume', musicValue);
   }
 
   return (
@@ -32,7 +35,7 @@ const SoundSettings = ({
         <div className='sound__range_icon'>
           <div className='sound'>
             <div
-              className={isMusicOn ? 'music__icon on' : 'music__icon off'}
+              className={appSettings.isMusicOn ? 'music__icon on' : 'music__icon off'}
               onClick={changeMusicState}
             />
           </div>
@@ -57,7 +60,7 @@ const SoundSettings = ({
         <div className='sound__range_icon'>
           <div className='sound'>
             <div
-              className={isSoundOn ? 'sound__icon on' : 'sound__icon off'}
+              className={appSettings.isSoundOn ? 'sound__icon on' : 'sound__icon off'}
               onClick={changeSoundState}
             />
           </div>

@@ -1,26 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
+import useStore from '../../../core/store/useStore';
 import { ThemeButtons } from '../../../constants/buttons';
-import images from '../../../constants/themes';
 
-const ThemeSettings = ({
-  currentOptions,
-  setOptions,
-  options,
-  chooseCurrentOption,
-  setCurrentImages,
-}) => {
-  const themeGame = localStorage.getItem('memorygametheme');
-  const savedTheme = JSON.parse(themeGame);
+import {changeCardTheme} from '../../../core/store/actions/gameSettings/actionCreators'
 
-  useEffect(() => {
-    let theme = options.theme.toLowerCase();    
-    const json = JSON.stringify(theme);
-    localStorage.setItem('memorygametheme', json);
+const ThemeSettings = () => {
 
-    if(themeGame) {
-      setCurrentImages(images[theme]);
-    }
-  }, [options.theme]);
+  const {dispatch, state} = useStore();
+  const {gameSettings} = state;
+
+  const changeCardThemeSettings = useCallback((value) => {
+    let cardThemeName = value.toLowerCase();
+
+    dispatch(changeCardTheme(cardThemeName));
+  });
+
+
+  // const themeGame = localStorage.getItem('memorygametheme');
+  // const savedTheme = JSON.parse(themeGame);
+
+  // useEffect(() => {
+  //   let themeName = gameSettings.theme.toLowerCase();    
+  //   const theme = JSON.stringify(themeName);
+  //   localStorage.setItem('memorygametheme', theme);
+
+  //   if(themeGame) {
+  //     setCurrentImages(images[theme]);
+  //   }
+  // }, [gameSettings.theme]);
 
   return (
     <div>
@@ -30,17 +37,11 @@ const ThemeSettings = ({
           <div className="block__settings" key={button.id}>
             <button
               className={
-                (currentOptions.currentTheme === button.text) || (savedTheme===button.text.toLocaleLowerCase())
+                (gameSettings.cardTheme === button.text.toLocaleLowerCase())
                 ? "card__bg active"
                 : "card__bg"
               }
-              onClick={(event) => {
-                setOptions({
-                  ...options,
-                  theme: button.text,
-                });
-                chooseCurrentOption(event);
-              }}
+              onClick={() => changeCardThemeSettings(button.text)}
             >
               {button.text}
             </button>

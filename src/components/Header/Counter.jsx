@@ -1,29 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import useStore from '../../core/store/useStore';
+import {changeElapsedTime} from '../../core/store/actions/gameLoop/actionCreators'
 
-const Counter = ({ isRunningStopwatch, stopwatchSeconds, setStopwatchSeconds, movesCount }) => {
-  const changeSeconds = (seconds) => {
-    setStopwatchSeconds(seconds);
-  };
+const Counter = () => {
+  const {dispatch, state} = useStore();
+  const {gameLoop} = state;
+
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   const formatTime = (time) => `${(time < 10 ? '0' : '')}${time}`;
-  const minutes = Math.floor(stopwatchSeconds / 60);
-  const seconds = Math.floor(stopwatchSeconds % 60);
-  
-  const secondsData = JSON.stringify(stopwatchSeconds);
-  localStorage.setItem('memorygameseconds', secondsData);
 
-  const movesData = JSON.stringify(movesCount);
-  localStorage.setItem('memorygamemoves', movesData);
+  // const secondsData = JSON.stringify(stopwatchSeconds);
+  // localStorage.setItem('memorygameseconds', secondsData);
+
+  // const movesData = JSON.stringify(movesCount);
+  // localStorage.setItem('memorygamemoves', movesData);
 
   useEffect(() => {
-    if (isRunningStopwatch) {
+    console.log(gameLoop.isStopwatchRunning)
+
+    if (gameLoop.isStopwatchRunning) {
       const stopwatchInterval = window.setInterval(() => {
-        changeSeconds((seconds) => seconds + 1);
+        dispatch(changeElapsedTime(gameLoop.elapsedTime += 1));
+        
+        setMinutes(Math.floor(gameLoop.elapsedTime / 60));
+        setSeconds(Math.floor(gameLoop.elapsedTime % 60));    
       }, 1000);
       return () => window.clearInterval(stopwatchInterval);
     }
     return undefined;
-  }, [isRunningStopwatch]);
+  }, [gameLoop.isStopwatchRunning]);
 
   return (
     <div className="statistic">
@@ -31,7 +38,7 @@ const Counter = ({ isRunningStopwatch, stopwatchSeconds, setStopwatchSeconds, mo
         Time: {`${formatTime(minutes)}:${formatTime(seconds)}`}
       </div>
       <div>
-        Moves: {`${movesCount}`}
+        Moves: {`${gameLoop.movesCount}`}
       </div>
     </div>
   )

@@ -1,33 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
+import useStore from '../../../core/store/useStore';
 import { DifficultButtons } from '../../../constants/buttons';
 
-const DifficultSettings = ({
-  currentOptions,
-  options,
-  setOptions,
-  chooseCurrentOption, 
-  setField,
-  field,
-}) => {
+import {
+  changeDifficulty,
+  changeFieldCssClass,
+} from '../../../core/store/actions/gameSettings/actionCreators';
+
+const DifficultSettings = () => {
+  const { dispatch, state } = useStore();
+  const { gameSettings } = state;
+
   useEffect(() => {
-    if(options.difficult === 12) {
-      setField('field__easy');
+    if (gameSettings.difficulty === 12) {
+      dispatch(changeFieldCssClass('field__easy'));
     }
-    if(options.difficult === 18) {
-      setField('field__normal');
+    if (gameSettings.difficulty === 18) {
+      dispatch(changeFieldCssClass('field__normal'));
     }
-    if(options.difficult === 24){
-      setField('field__difficult');
+    if (gameSettings.difficulty === 24) {
+      dispatch(changeFieldCssClass('field__difficult'));
     }
 
-    const savedDifficult = JSON.stringify(options.difficult);
-    localStorage.setItem('memorygamedifficult', savedDifficult);
+    // const savedDifficult = JSON.stringify(state.difficult);
+    // localStorage.setItem('memorygamedifficult', savedDifficult);
 
-    const savedField = JSON.stringify(field);
-    localStorage.setItem('memoryfield', savedField);
+    // const savedField = JSON.stringify(field);
+    // localStorage.setItem('memoryfield', savedField);
+  }, [gameSettings.difficulty]);
 
-  }, [options]);
-  
   return (
     <div className='difficulty__container'>
       <h3>Choose a difficulty:</h3>
@@ -37,19 +38,13 @@ const DifficultSettings = ({
             <button
               key={button.id}
               className={
-                currentOptions.currentDifficult === button.text
-                ? "difficult__button active"
-                : "difficult__button"
+                gameSettings.difficulty === button.value
+                  ? "difficult__button active"
+                  : "difficult__button"
               }
-              onClick={(event) => {
-                setOptions({
-                  ...options,
-                  difficult: button.value,
-                });
-                chooseCurrentOption(event);
-              }}
+              onClick={() => dispatch(changeDifficulty(button.value))}
             >
-            {button.text}
+              {button.text}
             </button>
           ))
         }
